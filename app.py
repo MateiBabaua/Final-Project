@@ -16,22 +16,6 @@ def create_connection():
     return conn
 
 
-def create_messages_table():
-    conn = create_connection()
-    cursor = conn.cursor()
-    cursor.execute('''
-        CREATE TABLE IF NOT EXISTS messages (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            name TEXT NOT NULL,
-            email TEXT NOT NULL,
-            subject TEXT NOT NULL,
-            message TEXT NOT NULL
-        );
-    ''')
-    conn.commit()
-    conn.close()
-
-
 class Database:
     def __init__(self, database_name):
         self.conn = sqlite3.connect(database_name)
@@ -93,6 +77,22 @@ class ProjectLinks:     # Projects -> GitHub Links
         return self.database.execute_query(query)
 
 
+def create_messages_table():
+    conn = create_connection()
+    cursor = conn.cursor()
+    cursor.execute('''
+        CREATE TABLE IF NOT EXISTS messages (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            name TEXT NOT NULL,
+            email TEXT NOT NULL,
+            subject TEXT NOT NULL,
+            message TEXT NOT NULL
+        );
+    ''')
+    conn.commit()
+    conn.close()
+
+
 @app.route('/contact', methods=['POST'])
 def contact():
     if request.method == 'POST':
@@ -126,29 +126,33 @@ def index():
     database = Database('database.db')
     create_messages_table()
 
-    contact_info = ContactInfo(database).get_info()
-    technologies_data = Technologies(database).get_technologies()
-    frameworks_data = Frameworks(database).get_frameworks()
-    websites_handler = Websites(database).get_website()
-    project_links_handler = ProjectLinks(database).get_github_links()
+    get_db_contact_info = ContactInfo(database).get_info()
+    get_db_technologies_data = Technologies(database).get_technologies()
+    get_db_frameworks_data = Frameworks(database).get_frameworks()
+    get_db_websites_links = Websites(database).get_website()
+    get_db_project_links = ProjectLinks(database).get_github_links()
 
     return render_template(
         'index.html',
-        contact_info=contact_info,
-        technologies=technologies_data,
-        frameworks=frameworks_data,
-        websites=websites_handler,
-        project_github_links=project_links_handler)
+        contact_info=get_db_contact_info,
+        technologies=get_db_technologies_data,
+        frameworks=get_db_frameworks_data,
+        websites=get_db_websites_links,
+        project_github_links=get_db_project_links,)
 
 
 # /*--------------------------------------------------------------------------------------
-#                                          blog Page
+#                                          Blog Page
 # --------------------------------------------------------------------------------------*/
 
 
 @app.route('/blog')
 def blog():
-    return render_template('blog.html')
+    database = Database('database.db')
+
+    get_contact_info = ContactInfo(database).get_info()
+    return render_template('blog.html',
+                           contact_info=get_contact_info,)
 
 
 if __name__ == '__main__':
