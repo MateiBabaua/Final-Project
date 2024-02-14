@@ -229,30 +229,36 @@
           <div class="col-md-4"></div>
           <div class="col-md-4">
             <div class="card card-blog">
-              <div class="card-img">
-                <a href="{{ url_for('blog') }}"><img src="{{ url_for('static', filename='assets/img/post-1.png') }}" alt="" class="img-fluid"></a>
-              </div>
-              <div class="card-body">
-                <div class="card-category-box">
-                  <div class="card-category">
-                    <h6 class="category">How I Got Here</h6>
+                <div class="card-img">
+                  <a href="{{ url_for('blog') }}"><img src="{{ url_for('static', filename='assets/img/post-1.png') }}" alt="" class="img-fluid"></a>
+                </div>
+                <div class="card-body">
+                  <div class="card-category-box">
+                    <a href="{{ url_for('blog') }}">
+                      <div class="card-category">
+                        <h6 class="category">How I Got Here</h6>
+                      </div>
+                    </a>
                   </div>
+                  <h3 class="card-title"><a href="{{ url_for('blog') }}">A few more words about myself</a></h3>
+                  <p class="card-description">
+                    <a href="{{ url_for('blog') }}">
+                    Explore my journey and learn more about me. Discover the story behind my path and get
+                    insights into who I am. Join me on this journey and uncover the essence of my story.
+                    </a>
+                  </p>
                 </div>
-                <h3 class="card-title"><a href="blog-single.html">A few more words about myself</a></h3>
-                <p class="card-description">
-                  Explore my journey and learn more about me. Discover the story behind my path and get
-                  insights into who I am. Join me on this journey and uncover the essence of my story.
-                </p>
-              </div>
-              <div class="card-footer">
-                <div class="post-author">
-                    <img src="static/assets/img/me.png" alt="" class="avatar rounded-circle">
-                    <span class="author">Babaua Matei-Paul</span>
+                <div class="card-footer">
+                  <a href="{{ url_for('blog') }}">
+                    <div class="post-author">
+                        <img src="static/assets/img/me.png" alt="" class="avatar rounded-circle">
+                        <span class="author">Babaua Matei-Paul</span>
+                    </div>
+                    <div class="post-date">
+                      <span class="bi bi-clock"></span> 13.02.2024
+                    </div>
+                  </a>
                 </div>
-                <div class="post-date">
-                  <span class="bi bi-clock"></span> 13.02.2024
-                </div>
-              </div>
             </div>
           </div>
           <div class="col-md-4"></div>
