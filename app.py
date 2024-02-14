@@ -84,7 +84,7 @@ class Websites:     # Contact -> Icons
         return self.database.execute_query(query)
 
 
-class ProjectLinks:     # Projects -> Github Links
+class ProjectLinks:     # Projects -> GitHub Links
     def __init__(self, database):
         self.database = database
 
