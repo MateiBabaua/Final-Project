@@ -211,3 +211,35 @@ def create_messages_table(database_name):
 
 
 create_messages_table(database)
+
+# /*--------------------------------------------------------------------------------------
+#                                          Replies Table
+# --------------------------------------------------------------------------------------*/
+
+
+def create_replies_table(database_name):
+    conn = sqlite3.connect(database_name)
+    cursor = conn.cursor()
+
+    cursor.execute("SELECT name FROM sqlite_master WHERE type='table' AND name='Replies'")
+    table_exists = cursor.fetchone()
+
+    if not table_exists:
+        create_table_query = '''
+        CREATE TABLE IF NOT EXISTS Replies (
+            id INTEGER PRIMARY KEY,
+            name TEXT,
+            email TEXT,
+            reply TEXT
+        )'''
+
+        cursor.execute(create_table_query)
+
+        conn.commit()
+        conn.close()
+    else:
+        conn.commit()
+        conn.close()
+
+
+create_replies_table('database.db')
