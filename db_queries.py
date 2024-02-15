@@ -1,7 +1,11 @@
 import sqlite3
-
 # /*--------------------------------------------------------------------------------------
 #                                          Database Queries
+# --------------------------------------------------------------------------------------*/
+database = 'database.db'
+
+# /*--------------------------------------------------------------------------------------
+#                                          Contact
 # --------------------------------------------------------------------------------------*/
 
 
@@ -31,6 +35,17 @@ def create_contact_table(database_name, name, profile, email, phone):
         conn.close()
 
 
+nume = 'Babaua Matei-Paul'
+profil = 'Junior Python Developer & Junior Automation Tester'
+email = 'mateibabaua@gmail.com'
+telefon = '+40 (765) 303 172'
+create_contact_table(database, nume, profil, email, telefon)
+
+# /*--------------------------------------------------------------------------------------
+#                                          Technologies
+# --------------------------------------------------------------------------------------*/
+
+
 def create_technologies_table(database_name, technologies):
     conn = sqlite3.connect(database_name)
     cursor = conn.cursor()
@@ -54,6 +69,14 @@ def create_technologies_table(database_name, technologies):
     else:
         conn.commit()
         conn.close()
+
+
+technologies = ["Python", "C++", "HTML5", "CSS3", "JavaScript", "MySQL", "SQLite", "MongoDB", "SQLAlchemy"]
+create_technologies_table(database, technologies)
+
+# /*--------------------------------------------------------------------------------------
+#                                          Frameworks
+# --------------------------------------------------------------------------------------*/
 
 
 def create_frameworks_table(database_name, frameworks):
@@ -81,6 +104,14 @@ def create_frameworks_table(database_name, frameworks):
         conn.close()
 
 
+frameworks = ["Django", "Flask", "Bootstrap", "SaSS/ScSS"]
+create_frameworks_table(database, frameworks)
+
+# /*--------------------------------------------------------------------------------------
+#                                          Socials
+# --------------------------------------------------------------------------------------*/
+
+
 def create_social_links_table(database_name, data):
     conn = sqlite3.connect(database_name)
     cursor = conn.cursor()
@@ -101,6 +132,18 @@ def create_social_links_table(database_name, data):
     else:
         conn.commit()
         conn.close()
+
+
+website_data = [
+    ('Facebook', 'https://www.facebook.com/matei.babb'),
+    ('Instagram', 'https://www.instagram.com/mateibab_/'),
+    ('GitHub', 'https://github.com/MateiBabaua'),
+    ('LinkedIn', 'https://www.linkedin.com/in/mateibabaua/')]
+create_social_links_table(database, website_data)
+
+# /*--------------------------------------------------------------------------------------
+#                                          GitHub Links
+# --------------------------------------------------------------------------------------*/
 
 
 def create_project_link_table(database_name, project_name):
@@ -130,6 +173,17 @@ def create_project_link_table(database_name, project_name):
         conn.close()
 
 
+project_names = [
+    ('scraping', 'https://github.com/peviitor-ro/Scrapers_Matei'),
+    ('electronical catalogue', 'https://github.com/MateiBabaua/ElectronicalCatalogue'),
+    ('personal', 'https://mateibabaua.github.io/')]
+create_project_link_table(database, project_names)
+
+# /*--------------------------------------------------------------------------------------
+#                                          Message Table
+# --------------------------------------------------------------------------------------*/
+
+
 def create_messages_table(database_name):
     conn = sqlite3.connect(database_name)
     cursor = conn.cursor()
@@ -155,38 +209,5 @@ def create_messages_table(database_name):
         conn.commit()
         conn.close()
 
-database = 'database.db'
-# /*--------------------------------------------------------------------------------------
-#                                          Contact
-# --------------------------------------------------------------------------------------*/
-nume = 'Babaua Matei-Paul'
-profil = 'Junior Python Developer & Junior Automation Tester'
-email = 'mateibabaua@gmail.com'
-telefon = '+40 (765) 303 172'
-create_contact_table(database, nume, profil, email, telefon)
-# /*--------------------------------------------------------------------------------------
-#                                          Frameworks
-# --------------------------------------------------------------------------------------*/
-frameworks = ["Django", "Flask", "Bootstrap", "Sass/Scss"]
-create_frameworks_table(database, frameworks)
-# /*--------------------------------------------------------------------------------------
-#                                          Socials
-# --------------------------------------------------------------------------------------*/
-website_data = [
-    ('Facebook', 'https://www.facebook.com/matei.babb'),
-    ('Instagram', 'https://www.instagram.com/mateibab_/'),
-    ('GitHub', 'https://github.com/MateiBabaua'),
-    ('LinkedIn', 'https://www.linkedin.com/in/mateibabaua/')]
-create_social_links_table(database, website_data)
-# /*--------------------------------------------------------------------------------------
-#                                          GitHub Links
-# --------------------------------------------------------------------------------------*/
-project_names = [
-    ('scraping', 'https://github.com/peviitor-ro/Scrapers_Matei'),
-    ('electronical catalogue', 'https://github.com/MateiBabaua/ElectronicalCatalogue'),
-    ('personal', 'https://mateibabaua.github.io/')]
-create_project_link_table(database, project_names)
-# /*--------------------------------------------------------------------------------------
-#                                          Message Table
-# --------------------------------------------------------------------------------------*/
+
 create_messages_table(database)
