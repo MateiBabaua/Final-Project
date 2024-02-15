@@ -116,8 +116,7 @@ def create_project_link_table(database_name, project_name):
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 repository TEXT NOT NULL,
                 link TEXT NOT NULL
-            );
-        ''')
+            );''')
 
         cursor.executemany('''
             INSERT INTO Repositories (repository, link)
@@ -131,26 +130,63 @@ def create_project_link_table(database_name, project_name):
         conn.close()
 
 
-database = 'database.db'
+def create_messages_table(database_name):
+    conn = sqlite3.connect(database_name)
+    cursor = conn.cursor()
 
+    cursor.execute("SELECT name FROM sqlite_master WHERE type='table' AND name='Messages'")
+    table_exists = cursor.fetchone()
+
+    if not table_exists:
+        create_table_query = '''
+        CREATE TABLE IF NOT EXISTS Messages (
+            id INTEGER PRIMARY KEY,
+            name TEXT,
+            email TEXT,
+            subject TEXT,
+            message TEXT
+        )'''
+
+        cursor.execute(create_table_query)
+
+        conn.commit()
+        conn.close()
+    else:
+        conn.commit()
+        conn.close()
+
+database = 'database.db'
+# /*--------------------------------------------------------------------------------------
+#                                          Contact
+# --------------------------------------------------------------------------------------*/
 nume = 'Babaua Matei-Paul'
 profil = 'Junior Python Developer & Junior Automation Tester'
 email = 'mateibabaua@gmail.com'
 telefon = '+40 (765) 303 172'
 create_contact_table(database, nume, profil, email, telefon)
-
+# /*--------------------------------------------------------------------------------------
+#                                          Frameworks
+# --------------------------------------------------------------------------------------*/
 frameworks = ["Django", "Flask", "Bootstrap", "Sass/Scss"]
 create_frameworks_table(database, frameworks)
-
+# /*--------------------------------------------------------------------------------------
+#                                          Socials
+# --------------------------------------------------------------------------------------*/
 website_data = [
     ('Facebook', 'https://www.facebook.com/matei.babb'),
     ('Instagram', 'https://www.instagram.com/mateibab_/'),
     ('GitHub', 'https://github.com/MateiBabaua'),
     ('LinkedIn', 'https://www.linkedin.com/in/mateibabaua/')]
 create_social_links_table(database, website_data)
-
+# /*--------------------------------------------------------------------------------------
+#                                          GitHub Links
+# --------------------------------------------------------------------------------------*/
 project_names = [
     ('scraping', 'https://github.com/peviitor-ro/Scrapers_Matei'),
     ('electronical catalogue', 'https://github.com/MateiBabaua/ElectronicalCatalogue'),
     ('personal', 'https://mateibabaua.github.io/')]
 create_project_link_table(database, project_names)
+# /*--------------------------------------------------------------------------------------
+#                                          Message Table
+# --------------------------------------------------------------------------------------*/
+create_messages_table(database)
