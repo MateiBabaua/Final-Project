@@ -108,7 +108,7 @@ def contact():
             conn = create_connection()
             cursor = conn.cursor()
             cursor.execute('''
-                INSERT INTO messages (name, email, subject, message) 
+                INSERT INTO Messages (name, email, subject, message) 
                 VALUES (?, ?, ?, ?)
             ''', (name, email, subject, message))
             conn.commit()
@@ -151,6 +151,7 @@ def blog():
     database = Database('database.db')
 
     get_contact_info = ContactInfo(database).get_info()
+
     return render_template('blog.html',
                            contact_info=get_contact_info,)
 
