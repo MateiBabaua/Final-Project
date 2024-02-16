@@ -129,6 +129,13 @@ def index():
 #                                          Blog Page
 # --------------------------------------------------------------------------------------*/
 
+class Comments:
+    def __init__(self, name, reply, date):
+        self.name = name
+        self.reply = reply
+        self.date = date
+
+
 class BlogComments:
     def __init__(self, database):
         self.database = database
@@ -172,13 +179,6 @@ class BlogComments:
         conn.close()
 
         return total_rows
-
-
-class Comments:
-    def __init__(self, name, reply, date):
-        self.name = name
-        self.reply = reply
-        self.date = date
 
 
 @app.route('/blogreply', methods=['POST'])
