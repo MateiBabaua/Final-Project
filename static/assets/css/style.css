@@ -1261,18 +1261,9 @@ a:hover {
 
 .widget-sidebar .list-sidebar li {
   position: relative;
-  padding: 6px 0 6px 24px;
 }
 
-.widget-sidebar .list-sidebar li:before {
-  position: absolute;
-  content: "";
-  width: 10px;
-  height: 1px;
-  left: 0;
-  background-color: #181f32;
-  top: 20px;
-}
+
 
 .sidebar-search input {
   background-color: #fff;
