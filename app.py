@@ -42,7 +42,7 @@ class ContactInfo:     # About -> Contact
         return query_result[0] if query_result else None
 
 
-class Technologies:     #About -> Technologies
+class Technologies:
     def __init__(self, database):
         self.database = database
 
@@ -51,7 +51,7 @@ class Technologies:     #About -> Technologies
         return [row[0] for row in query_result]
 
 
-class Frameworks:     #About -> Frameworks
+class Frameworks:
     def __init__(self, database):
         self.database = database
 
@@ -160,6 +160,19 @@ class BlogComments:
         finally:
             conn.close()
 
+    @staticmethod
+    def count_rows():
+        conn = create_connection()
+        cursor = conn.cursor()
+
+        cursor.execute("SELECT COUNT(*) FROM Replies")
+        total_rows = cursor.fetchone()[0]
+
+        conn.commit()
+        conn.close()
+
+        return total_rows
+
 
 class Comments:
     def __init__(self, name, reply, date):
@@ -167,18 +180,6 @@ class Comments:
         self.reply = reply
         self.date = date
 
-    def count_rows(database_name):
-        conn = create_connection()
-        cursor = conn.cursor()
-
-        # Executăm o interogare COUNT pentru a obține numărul total de rânduri din tabelul Replies
-        cursor.execute("SELECT COUNT(*) FROM Replies")
-        total_rows = cursor.fetchone()[0]  # Fetchone() returnează un tuple, iar în acest caz, vrem doar prima valoare
-
-        conn.commit()
-        conn.close()
-
-        return total_rows
 
 @app.route('/blogreply', methods=['POST'])
 def blogreply():
@@ -213,7 +214,7 @@ def blog():
 
     get_contact_info = ContactInfo(database).get_info()
     get_blog_comments = BlogComments(database).get_comments()
-    get_comments_count = Comments(database).count_rows()
+    get_comments_count = BlogComments(database).count_rows()
 
     return render_template('blog.html',
                            contact_info=get_contact_info,
