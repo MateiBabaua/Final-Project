@@ -230,10 +230,22 @@ def create_replies_table(database_name):
             id INTEGER PRIMARY KEY,
             name TEXT,
             email TEXT,
-            reply TEXT
+            reply TEXT,
+            date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
         )'''
 
         cursor.execute(create_table_query)
+
+        create_trigger_query = '''
+        CREATE TRIGGER IF NOT EXISTS save_reply_date
+        AFTER INSERT ON Replies
+        BEGIN
+            UPDATE Replies
+            SET date = CURRENT_TIMESTAMP
+            WHERE id = NEW.id;
+        END;'''
+
+        cursor.execute(create_trigger_query)
 
         conn.commit()
         conn.close()
