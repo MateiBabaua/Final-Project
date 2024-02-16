@@ -1210,6 +1210,7 @@ a:hover {
 .box-comments .list-comments .comment-avatar {
   display: table-cell;
   vertical-align: top;
+  border-radius: 50%;
 }
 
 .box-comments .list-comments .comment-avatar img {
