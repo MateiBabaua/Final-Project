@@ -251,7 +251,7 @@
                 <div class="card-footer">
                   <a href="{{ url_for('blog') }}">
                     <div class="post-author">
-                        <img src="static/assets/img/me.png" alt="" class="avatar rounded-circle">
+                        <img src="{{ url_for('static', filename='assets/img/me.png') }}" alt="" class="avatar rounded-circle">
                         <span class="author">{{ contact_info[1] }}</span>
                     </div>
                     <div class="post-date">
