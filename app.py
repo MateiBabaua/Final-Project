@@ -1,14 +1,10 @@
 from flask import Flask, render_template, request, redirect, url_for
 import sqlite3
+from datetime import datetime
 
 app = Flask(__name__)
 app.config['STATIC_FOLDER'] = 'static'
 app.config['DATABASE'] = 'database.db'
-
-
-# /*--------------------------------------------------------------------------------------
-#                                          Home Page
-# --------------------------------------------------------------------------------------*/
 
 
 def create_connection():
@@ -30,6 +26,11 @@ class Database:
 
     def __del__(self):
         self.conn.close()
+
+
+# /*--------------------------------------------------------------------------------------
+#                                          Home Page
+# --------------------------------------------------------------------------------------*/
 
 
 class ContactInfo:     # About -> Contact
@@ -77,22 +78,6 @@ class ProjectLinks:     # Projects -> GitHub Links
         return self.database.execute_query(query)
 
 
-def create_messages_table():
-    conn = create_connection()
-    cursor = conn.cursor()
-    cursor.execute('''
-        CREATE TABLE IF NOT EXISTS messages (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            name TEXT NOT NULL,
-            email TEXT NOT NULL,
-            subject TEXT NOT NULL,
-            message TEXT NOT NULL
-        );
-    ''')
-    conn.commit()
-    conn.close()
-
-
 @app.route('/contact', methods=['POST'])
 def contact():
     if request.method == 'POST':
@@ -124,7 +109,6 @@ def contact():
 @app.route('/')
 def index():
     database = Database('database.db')
-    create_messages_table()
 
     get_db_contact_info = ContactInfo(database).get_info()
     get_db_technologies_data = Technologies(database).get_technologies()
@@ -145,15 +129,96 @@ def index():
 #                                          Blog Page
 # --------------------------------------------------------------------------------------*/
 
+class BlogComments:
+    def __init__(self, database):
+        self.database = database
+
+    def get_comments(self):
+        query = "SELECT name, reply, strftime('%d-%m-%Y %H:%M:%S', date) AS date FROM Replies"
+
+        try:
+            rows = self.database.execute_query(query)
+            comments = [Comments(name, reply, date) for name, reply, date in rows]
+            return comments
+        except sqlite3.Error as e:
+            print("An error occurred:", e)
+
+    def add_comment(self, name, email, reply):
+        formatted_date = datetime.now().strftime('%d-%m-%Y')
+        try:
+            conn = create_connection()
+            cursor = conn.cursor()
+            query = cursor.execute('''
+                INSERT INTO Replies (name, email, reply, date) 
+                VALUES (?, ?, ?, CURRENT_TIMESTAMP)
+            ''', (name, email, reply))
+            self.database.execute_query(query, (name, email, reply, formatted_date))
+            conn.commit()
+        except sqlite3.Error as e:
+            print("Error inserting data:", e)
+            raise
+        finally:
+            conn.close()
+
+
+class Comments:
+    def __init__(self, name, reply, date):
+        self.name = name
+        self.reply = reply
+        self.date = date
+
+    def count_rows(database_name):
+        conn = create_connection()
+        cursor = conn.cursor()
+
+        # Executăm o interogare COUNT pentru a obține numărul total de rânduri din tabelul Replies
+        cursor.execute("SELECT COUNT(*) FROM Replies")
+        total_rows = cursor.fetchone()[0]  # Fetchone() returnează un tuple, iar în acest caz, vrem doar prima valoare
+
+        conn.commit()
+        conn.close()
+
+        return total_rows
+
+@app.route('/blogreply', methods=['POST'])
+def blogreply():
+    if request.method == 'POST':
+        name = request.form.get('blogname')
+        email = request.form.get('blogemail')
+        reply = request.form.get('blogreply')
+
+        if not name or not email or not reply:
+            return 'All fields are required', 400
+
+        try:
+            conn = create_connection()
+            cursor = conn.cursor()
+            cursor.execute('''
+                INSERT INTO Replies (name, email, reply) 
+                VALUES (?, ?, ?)
+            ''', (name, email, reply))
+            conn.commit()
+        except sqlite3.Error as e:
+            print("Error inserting data:", e)
+            return 'An error occurred while saving your message', 500
+        finally:
+            conn.close()
+
+        return redirect(url_for('blog'))
+
 
 @app.route('/blog')
 def blog():
     database = Database('database.db')
 
     get_contact_info = ContactInfo(database).get_info()
+    get_blog_comments = BlogComments(database).get_comments()
+    get_comments_count = Comments(database).count_rows()
 
     return render_template('blog.html',
-                           contact_info=get_contact_info,)
+                           contact_info=get_contact_info,
+                           comments=get_blog_comments,
+                           comments_index=get_comments_count,)
 
 
 if __name__ == '__main__':
