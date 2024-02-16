@@ -212,14 +212,16 @@ def blogreply():
 def blog():
     database = Database('database.db')
 
-    get_contact_info = ContactInfo(database).get_info()
-    get_blog_comments = BlogComments(database).get_comments()
-    get_comments_count = BlogComments(database).count_rows()
+    get_db_contact_info = ContactInfo(database).get_info()
+    get_db_blog_comments = BlogComments(database).get_comments()
+    get_db_comments_count = BlogComments(database).count_rows()
+    get_db_websites_links = Websites(database).get_website()
 
     return render_template('blog.html',
-                           contact_info=get_contact_info,
-                           comments=get_blog_comments,
-                           comments_index=get_comments_count,)
+                           contact_info=get_db_contact_info,
+                           comments=get_db_blog_comments,
+                           comments_index=get_db_comments_count,
+                           websites=get_db_websites_links,)
 
 
 if __name__ == '__main__':
