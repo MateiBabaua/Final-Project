@@ -18,6 +18,29 @@ def create_connection():
     conn = sqlite3.connect(app.config['DATABASE'])
     return conn
 
+# /*--------------------------------------------------------------------------------------
+#                                          Home Page
+# --------------------------------------------------------------------------------------*/
+
+
+@app.route('/')
+def index():
+    database = Database('database.db')
+
+    get_db_contact_info = ContactInfo(database).get_info()
+    get_db_technologies_data = Technologies(database).get_technologies()
+    get_db_frameworks_data = Frameworks(database).get_frameworks()
+    get_db_websites_links = Websites(database).get_website()
+    get_db_project_links = ProjectLinks(database).get_github_links()
+
+    return render_template(
+        'index.html',
+        contact_info=get_db_contact_info,
+        technologies=get_db_technologies_data,
+        frameworks=get_db_frameworks_data,
+        websites=get_db_websites_links,
+        project_github_links=get_db_project_links,)
+
 
 @app.route('/contact', methods=['POST'])
 def contact():
@@ -46,24 +69,25 @@ def contact():
 
         return redirect(url_for('index'))
 
+# /*--------------------------------------------------------------------------------------
+#                                          Blog Page
+# --------------------------------------------------------------------------------------*/
 
-@app.route('/')
-def index():
+
+@app.route('/blog')
+def blog():
     database = Database('database.db')
 
     get_db_contact_info = ContactInfo(database).get_info()
-    get_db_technologies_data = Technologies(database).get_technologies()
-    get_db_frameworks_data = Frameworks(database).get_frameworks()
+    get_db_blog_comments = BlogComments(database).get_comments()
+    get_db_comments_count = BlogComments(database).count_rows()
     get_db_websites_links = Websites(database).get_website()
-    get_db_project_links = ProjectLinks(database).get_github_links()
 
-    return render_template(
-        'index.html',
-        contact_info=get_db_contact_info,
-        technologies=get_db_technologies_data,
-        frameworks=get_db_frameworks_data,
-        websites=get_db_websites_links,
-        project_github_links=get_db_project_links,)
+    return render_template('blog.html',
+                           contact_info=get_db_contact_info,
+                           comments=get_db_blog_comments,
+                           comments_index=get_db_comments_count,
+                           websites=get_db_websites_links,)
 
 
 @app.route('/blogreply', methods=['POST'])
@@ -91,19 +115,3 @@ def blogreply():
             conn.close()
 
         return redirect(url_for('blog'))
-
-
-@app.route('/blog')
-def blog():
-    database = Database('database.db')
-
-    get_db_contact_info = ContactInfo(database).get_info()
-    get_db_blog_comments = BlogComments(database).get_comments()
-    get_db_comments_count = BlogComments(database).count_rows()
-    get_db_websites_links = Websites(database).get_website()
-
-    return render_template('blog.html',
-                           contact_info=get_db_contact_info,
-                           comments=get_db_blog_comments,
-                           comments_index=get_db_comments_count,
-                           websites=get_db_websites_links,)
