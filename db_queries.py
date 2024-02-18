@@ -38,7 +38,7 @@ def create_contact_table(database_name, name, profile, email, phone):
 nume = 'Babaua Matei-Paul'
 profil = 'Junior Python Developer & Junior Automation Tester'
 email = 'mateibabaua@gmail.com'
-telefon = '+40 (765) 303 172'
+telefon = '+40 (765) 303 ***'
 create_contact_table(database, nume, profil, email, telefon)
 
 # /*--------------------------------------------------------------------------------------
