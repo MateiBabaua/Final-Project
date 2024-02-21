@@ -27,7 +27,7 @@ def create_connection(database_name):
 # --------------------------------------------------------------------------------------*/
 
 
-class ContactInfo:     # About -> Contact
+class ContactInfo:
     def __init__(self, database):
         self.database = database
 
