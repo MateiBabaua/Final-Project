@@ -29,47 +29,47 @@ def create_connection(database_name):
 
 class ContactInfo:
     def __init__(self, database):
-        self.database = database
+        self._database = database
 
     def get_info(self):
-        query_result = self.database.execute_query("SELECT * FROM Contacte")
+        query_result = self._database.execute_query("SELECT * FROM Contacte")
         return query_result[0] if query_result else None
 
 
 class Technologies:
     def __init__(self, database):
-        self.database = database
+        self._database = database
 
     def get_technologies(self):
-        query_result = self.database.execute_query("SELECT Technology FROM Technologies")
+        query_result = self._database.execute_query("SELECT Technology FROM Technologies")
         return [row[0] for row in query_result]
 
 
 class Frameworks:
     def __init__(self, database):
-        self.database = database
+        self._database = database
 
     def get_frameworks(self):
-        query_result = self.database.execute_query("SELECT Framework FROM Frameworks")
+        query_result = self._database.execute_query("SELECT Framework FROM Frameworks")
         return [row for row in query_result]
 
 
 class Websites:     # Contact -> Icons
     def __init__(self, database):
-        self.database = database
+        self._database = database
 
     def get_website(self):
         query = "SELECT website, link FROM websites"
-        return self.database.execute_query(query)
+        return self._database.execute_query(query)
 
 
 class ProjectLinks:     # Projects -> GitHub Links
     def __init__(self, database):
-        self.database = database
+        self._database = database
 
     def get_github_links(self):
         query = "SELECT link FROM Repositories"
-        return self.database.execute_query(query)
+        return self._database.execute_query(query)
 
 
 # /*--------------------------------------------------------------------------------------
