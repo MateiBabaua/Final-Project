@@ -17,11 +17,15 @@
 
 🔌 Activarea mediului virtual este necesară pentru a izola mediul de lucru al proiectului. (Windows: `venv\Scripts\activate` , Linux: `venv/bin/activate`)
 
-### Pasul 5: Pornirea Aplicației
+### Pasul 5: Instalarea Flask-ului
+
+🔑 După ce am activat virtual environment-ul, trebuie să instalăm Flask pentru a putea rula aplicația (`pip install Flask`)
+
+### Pasul 6: Pornirea Aplicației
 
 ▶️ Pentru a porni aplicația, rulați comanda corespunzătoare în terminal. (Windows: `python app.py`, Linux: `python3 app.py`)
 
-### Pasul 6: Accesarea Aplicației
+### Pasul 7: Accesarea Aplicației
 
 🌐 În terminal, veți primi un IP local de la care puteți accesa aplicația. Deschideți un browser și introduceți acest IP pentru a accesa aplicația. Acum aplicația ar trebui să ruleze corect și să fie accesibilă local. Pentru orice întrebări sau probleme, vă rugăm să consultați documentația proiectului sau să ne contactați.
 
@@ -43,10 +47,14 @@
 
 🔌 Activating the virtual environment is necessary to isolate the project's working environment. (Windows: `venv\Scripts\activate` , Linux: `venv/bin/activate`)
 
-### Step 5: Run the Application
+### Step 5: Installing Flask
+
+🔑 After activating the virtual environment, we need to install Flask in order to run the application (`pip install Flask`)
+
+### Step 6: Run the Application
 
 ▶️ To run the application, execute the appropriate command in the terminal. (Windows: `python app.py`, Linux: `python3 app.py`)
 
-### Step 6: Access the Application
+### Step 7: Access the Application
 
 🌐 In the terminal, you will be provided with a local IP from which you can access the application. Open a browser and enter this IP to access the application. The application should now run correctly and be accessible locally.
