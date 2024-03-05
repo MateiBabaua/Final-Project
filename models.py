@@ -31,7 +31,7 @@ class ContactInfo:
     def __init__(self, database):
         self._database = database
 
-    def get_info(self):
+    def _get_info(self):
         query_result = self._database.execute_query("SELECT * FROM Contacte")
         return query_result[0] if query_result else None
 
