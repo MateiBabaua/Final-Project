@@ -27,7 +27,7 @@ def create_connection():
 def index():
     database = Database('database.db')
 
-    get_db_contact_info = ContactInfo(database).get_info()
+    get_db_contact_info = ContactInfo(database)._get_info()
     get_db_technologies_data = Technologies(database).get_technologies()
     get_db_frameworks_data = Frameworks(database).get_frameworks()
     get_db_websites_links = Websites(database).get_website()
@@ -78,7 +78,7 @@ def contact():
 def blog():
     database = Database('database.db')
 
-    get_db_contact_info = ContactInfo(database).get_info()
+    get_db_contact_info = ContactInfo(database)._get_info()
     get_db_blog_comments = BlogComments(database).get_comments()
     get_db_comments_count = BlogComments(database).count_rows()
     get_db_websites_links = Websites(database).get_website()
